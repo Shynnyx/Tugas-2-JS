@@ -1,0 +1,114 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Tugas 2 JavaScript</title>
+</head>
+<body>
+
+    <h1>Data Pegawai</h1>
+
+    <table border="1">
+        <thead>
+            <tr>
+                <th>Nama Pegawai</th>
+                <th>Umur</th>
+                <th>Jabatan</th>
+                <th>Status</th>
+                <th>Gaji Pokok</th>
+                <th>Tunjangan Jabatan</th>
+                <th>BPJS</th>
+                <th>Tunjangan Keluarga</th>
+                <th>Total Gaji</th>
+            </tr>
+        </thead>
+
+        <tbody id="dataPegawai">
+        </tbody>
+
+        <tfoot id="totalGaji">
+        </tfoot>
+    </table>
+
+    <script>
+        // Data pegawai
+        let pegawai = [
+            {
+                nama: "Dodi Prayodi",
+                umur: 25,
+                jabatan: "Manager",
+                status: "Menikah"
+            },
+            {
+                nama: "Shinta Maulani",
+                umur: 20,
+                jabatan: "Asisten Manager",
+                status: "Belum Menikah"
+            },
+            {
+                nama: "Maudy Amanda",
+                umur: 27,
+                jabatan: "Staff",
+                status: "Belum Menikah"
+            }
+        ];
+
+        // Menyimpan total seluruh gaji pegawai
+        let totalSemuaGaji = 0;
+
+        pegawai.forEach(function(data) {
+
+            // Menentukan gaji pokok berdasarkan jabatan
+            let gajiPokok;
+
+            if (data.jabatan === "Manager") {
+                gajiPokok = 15000000;
+            } else if (data.jabatan === "Asisten Manager") {
+                gajiPokok = 10000000;
+            } else {
+                gajiPokok = 5000000;
+            }
+
+            // Menghitung tunjangan jabatan
+            let tunjanganJabatan = gajiPokok * 0.15;
+
+            // Menghitung BPJS
+            let bpjs = gajiPokok * 0.10;
+
+            // Menghitung tunjangan keluarga
+            let tunjanganKeluarga = data.status === "Menikah"
+                ? gajiPokok * 0.20
+                : 0;
+
+            // Menghitung total gaji pegawai
+            let totalGaji = gajiPokok + tunjanganJabatan + bpjs + tunjanganKeluarga;
+
+            // Menambahkan total gaji ke total seluruh pegawai
+            totalSemuaGaji += totalGaji;
+
+            // Menampilkan data ke tabel
+            document.getElementById("dataPegawai").innerHTML += `
+                <tr>
+                    <td>${data.nama}</td>
+                    <td>${data.umur}</td>
+                    <td>${data.jabatan}</td>
+                    <td>${data.status}</td>
+                    <td>Rp ${gajiPokok.toLocaleString("id-ID")}</td>
+                    <td>Rp ${tunjanganJabatan.toLocaleString("id-ID")}</td>
+                    <td>Rp ${bpjs.toLocaleString("id-ID")}</td>
+                    <td>Rp ${tunjanganKeluarga.toLocaleString("id-ID")}</td>
+                    <td>Rp ${totalGaji.toLocaleString("id-ID")}</td>
+                </tr>
+            `;
+        });
+
+        // Menampilkan total seluruh gaji pada footer
+        document.getElementById("totalGaji").innerHTML = `
+            <tr>
+                <th colspan="8">Total Gaji</th>
+                <th>Rp ${totalSemuaGaji.toLocaleString("id-ID")}</th>
+            </tr>
+        `;
+    </script>
+
+</body>
+</html>
